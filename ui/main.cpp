@@ -1,8 +1,11 @@
-#include <fmt/format.h>
+#include "mainwindow.h"
+#include <QApplication>
 
-int main()
+int main(int argc, char *argv[])
 {
-    fmt::print("Hello World!");
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
-    return 0;
+    return a.exec();
 }
