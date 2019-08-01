@@ -52,9 +52,11 @@ target_link_libraries(discord_bot
         Qt5::Widgets
 )
 
-copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Core.dll")
-copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Cored.dll")
-copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Gui.dll")
-copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Guid.dll")
-copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Widgets.dll")
-copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Widgetsd.dll")
+if (WIN32)
+    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Core.dll")
+    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Cored.dll")
+    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Gui.dll")
+    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Guid.dll")
+    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Widgets.dll")
+    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Widgetsd.dll")
+endif()
