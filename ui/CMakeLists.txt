@@ -20,12 +20,12 @@ set(CMAKE_AUTOUIC ON)
 if (DEFINED ENV{QTPATH})
     set(CMAKE_PREFIX_PATH ENV{QTPATH})
 else()
-    message("-- QTPATH is not defined!")
-    message("-- Using default Qt path...")
+    message(STATUS "QTPATH is not defined!")
+    message(STATUS "Using default Qt path...")
     set(CMAKE_PREFIX_PATH "C:/Qt/5.11.2/msvc2017_64")
 endif()
 
-message("-- QTPATH: ${CMAKE_PREFIX_PATH}")
+message(STATUS "QTPATH: ${CMAKE_PREFIX_PATH}")
 
 if (CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -43,11 +43,13 @@ add_executable(discord_bot
 target_include_directories(discord_bot
     PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}"
+        "${CMAKE_SOURCE_DIR}/libwinapi/include"
 )
 
 target_link_libraries(discord_bot
     PRIVATE
     general
+        libwinapi
         "fmt-header-only"
         Qt5::Widgets
 )
