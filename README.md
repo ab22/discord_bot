@@ -14,7 +14,9 @@ cmake ..
 To specify a QTPATH variable you can use:
 
 ```
-> QTENV="/path/to/qt" cmake ..
-   or
-> cmake -DQTENV="/path/to/qt" cmake ..
+QTENV="/path/to/qt" cmake ..
+```
+or
+```
+cmake -DQTENV="/path/to/qt" cmake ..
 ```
