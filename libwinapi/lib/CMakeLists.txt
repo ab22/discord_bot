@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.12)
 project(winapi LANGUAGES CXX)
 
+# To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
+# See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
+# See https://blog.kitware.com/create-dlls
+SET(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 add_library(libwinapi
     SHARED
         lib.cpp

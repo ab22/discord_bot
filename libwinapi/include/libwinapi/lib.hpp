@@ -1,9 +1,11 @@
 #pragma once
 
-#ifdef _MSC_VER
-    #define EXPORT __declspec(dllexport)
-#else
-    #define EXPORT
-#endif
+#include <string>
+#include <vector>
 
-EXPORT int winapi_magic();
+#include "defines.hpp"
+
+namespace libwinapi {
+	EXPORT int winapi_magic();
+	EXPORT std::vector<std::wstring> get_open_windows();
+}

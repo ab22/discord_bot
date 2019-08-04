@@ -18,8 +18,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString text = QString("The magic number is: %1").arg(winapi_magic());
+    auto openWindows = libwinapi::get_open_windows();
+    auto text = QString("There are currentyl %1 windows open!").arg(openWindows.size());
     QMessageBox msg;
+
     msg.setText(text);
     msg.setInformativeText("Magic number from libwinapi :D!");
     msg.setStandardButtons(QMessageBox::Ok);

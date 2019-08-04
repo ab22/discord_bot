@@ -31,7 +31,7 @@ else()
 endif()
 
 # Create Library after we have set variables.
-add_subdirectory(lib
+add_subdirectory(lib)
 
 # Enable testing
 # option(LIBWINAPI_TESTS "Build tests" ON)

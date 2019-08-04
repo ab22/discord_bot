@@ -39,7 +39,7 @@ target_link_libraries(discord_bot
         Qt5::Widgets
 )
 
-# Utility function to copy QT libraries into bin/ dir.
+# Utility function to copy QT libraries Ahinto bin/ dir.
 function(copy_qt_dll dll_path)
     add_custom_command(
         TARGET
