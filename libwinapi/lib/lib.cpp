@@ -1,13 +1,6 @@
 #include <libwinapi/lib.hpp>
 #include <Windows.h>
 
-// using namespace libwinapi;
-
-int libwinapi::winapi_magic()
-{
-    return 22;
-}
-
 BOOL CALLBACK enum_windows_callback(HWND hwnd, LPARAM lparam)
 {
     int title_length = GetWindowTextLengthW(hwnd);
