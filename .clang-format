@@ -1,0 +1,24 @@
+BasedOnStyle: LLVM
+Language: Cpp
+
+UseTab: ForIndentation
+TabWidth: 4
+IndentWidth: 4
+ColumnLimit: 90
+PointerAlignment: Left
+AlignAfterOpenBracket: AlwaysBreak
+AlwaysBreakTemplateDeclarations: Yes
+AllowShortFunctionsOnASingleLine: None
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+BreakConstructorInitializers: BeforeComma
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterFunction: true
+    AfterEnum: true
+BinPackArguments: false
+SpaceBeforeInheritanceColon: false
+NamespaceIndentation: All
+FixNamespaceComments: false
