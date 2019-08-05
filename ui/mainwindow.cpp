@@ -19,7 +19,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     auto openWindows = libwinapi::get_open_windows();
-    auto text = QString("There are currentyl %1 windows open!").arg(openWindows.size());
+    auto text = QString("There are currentyl %1 windows open!").arg(openWindows.at(0).title);
     QMessageBox msg;
 
     msg.setText(text);

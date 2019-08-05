@@ -4,7 +4,8 @@
 #include <vector>
 
 #include "defines.hpp"
+#include "models.hpp"
 
 namespace libwinapi {
-	EXPORT std::vector<std::wstring> get_open_windows();
+	EXPORT std::vector<models::WindowInfo> get_open_windows();
 }

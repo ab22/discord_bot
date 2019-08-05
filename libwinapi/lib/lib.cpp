@@ -1,27 +1,48 @@
-#include <libwinapi/lib.hpp>
 #include <Windows.h>
+#include <exception>
+
+#include <libwinapi/lib.hpp>
+
+using WindowInfo = libwinapi::models::WindowInfo;
+
+struct EnumWindowsParam {
+	std::vector<WindowInfo>* windows;
+	std::exception_ptr       eptr;
+};
 
 BOOL CALLBACK enum_windows_callback(HWND hwnd, LPARAM lparam)
 {
-    int title_length = GetWindowTextLengthW(hwnd);
-    std::wstring title;
+	auto* params = reinterpret_cast<EnumWindowsParam*>(lparam);
 
-    if (!IsWindowVisible(hwnd) || title_length == 0)
-        return TRUE;
+	try {
+		WindowInfo info;
+		int        title_length = GetWindowTextLengthW(hwnd);
 
-    title.resize(title_length);
-    GetWindowTextW(hwnd, title.data(), title_length);
+		if (!IsWindowVisible(hwnd) || title_length == 0)
+			return TRUE;
 
-    auto* windows = reinterpret_cast<std::vector<std::wstring>*>(lparam);
-    windows->push_back(std::move(title));
+		info.title.resize(title_length);
+		GetWindowTextW(hwnd, info.title.data(), title_length);
+		params->windows->push_back(std::move(info));
+	} catch (...) {
+		params->eptr = std::current_exception();
+		return FALSE;
+	}
 
-    return TRUE;
+	return TRUE;
 }
 
-std::vector<std::wstring> libwinapi::get_open_windows()
+std::vector<WindowInfo> libwinapi::get_open_windows()
 {
-    std::vector<std::wstring> windows;
-    EnumWindows(enum_windows_callback, reinterpret_cast<LPARAM>(&windows));
+	std::vector<WindowInfo> windows;
+	EnumWindowsParam        params;
+	params.eptr    = nullptr;
+	params.windows = &windows;
 
-    return windows;
+	auto result = EnumWindows(enum_windows_callback, reinterpret_cast<LPARAM>(&params));
+
+	if (params.eptr)
+		std::rethrow_exception(params.eptr);
+
+	return windows;
 }
