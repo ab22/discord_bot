@@ -7,7 +7,7 @@
 #include <vector>
 
 namespace libwinapi::models {
-	EXPORT struct WindowInfo {
+	struct WindowInfo {
 		HWND         hwnd;
 		std::wstring title;
 	};
