@@ -18,12 +18,19 @@ BOOL CALLBACK enum_windows_callback(HWND hwnd, LPARAM lparam)
 	try {
 		WindowInfo info;
 		int        title_length = GetWindowTextLengthW(hwnd);
+		int        chars_copied = 0;
 
 		if (!IsWindowVisible(hwnd) || title_length == 0)
 			return TRUE;
 
-		info.title.resize(title_length + 1);
-		GetWindowTextW(hwnd, info.title.data(), title_length + 1);
+		// (?) Required to take the full text of the window title.
+		title_length++;
+		info.title.resize(title_length);
+		chars_copied = GetWindowTextW(hwnd, info.title.data(), title_length);
+
+		if (chars_copied == 0)
+			return FALSE;
+
 		params->windows->push_back(std::move(info));
 	} catch (...) {
 		params->eptr = std::current_exception();
