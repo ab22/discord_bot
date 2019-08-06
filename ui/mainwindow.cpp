@@ -38,7 +38,7 @@ void MainWindow::on_pushButton_clicked()
 	Win32Error  err;
 	QString     message;
 	QMessageBox msg;
-    auto        result = libwinapi::get_open_windows(err);
+    auto        result = winService.get_open_windows(err);
 
 	if (err) {
 		msg.setText(err.message());
@@ -47,16 +47,16 @@ void MainWindow::on_pushButton_clicked()
         msg.setDefaultButton(QMessageBox::Ok);
         msg.exec();
         return;
-	} else if (!result) {
+    } else if (!result) {
 		msg.setText("No windows open!");
 		msg.setInformativeText("Magic number from libwinapi :D!");
 		msg.setStandardButtons(QMessageBox::Ok);
 		msg.setDefaultButton(QMessageBox::Ok);
 		msg.exec();
 		return;
-	}
+    }
 
-	auto windows = result.value();
+    auto windows = result.value();
     ui->listWindows->clear();
 
     for (auto& item : windows) {

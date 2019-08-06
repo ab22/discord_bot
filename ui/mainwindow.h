@@ -5,6 +5,10 @@
 #include <libwinapi/lib.hpp>
 #include <vector>
 
+using libwinapi::models::WindowInfo;
+using libwinapi::os_adapters::WinOS;
+using libwinapi::services::OSService;
+
 namespace Ui {
     class MainWindow;
 }
@@ -20,11 +24,12 @@ class MainWindow: public QMainWindow {
     void on_pushButton_clicked();
 
   private:
-    Ui::MainWindow*                            ui;
-    QMenu*                                     fileMenu;
-    QAction*                                   settingsAction;
-    QAction*                                   exitAction;
-    std::vector<libwinapi::models::WindowInfo> openWindows;
+    OSService<WinOS>        winService;
+    Ui::MainWindow*         ui;
+    QMenu*                  fileMenu;
+    QAction*                settingsAction;
+    QAction*                exitAction;
+    std::vector<WindowInfo> openWindows;
 
     void setupMenuBar();
 

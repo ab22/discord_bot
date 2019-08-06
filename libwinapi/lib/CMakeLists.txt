@@ -8,8 +8,8 @@ SET(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_library(libwinapi
     SHARED
-        lib.cpp
         errors.cpp
+        win_os.cpp
 )
 
 set_target_properties(libwinapi
