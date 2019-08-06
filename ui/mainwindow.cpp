@@ -11,11 +11,26 @@ MainWindow::MainWindow(QWidget* parent)
     , ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+    setupMenuBar();
 }
 
 MainWindow::~MainWindow()
 {
-	delete ui;
+    delete ui;
+}
+
+void MainWindow::setupMenuBar()
+{
+    fileMenu       = menuBar()->addMenu(tr("&File"));
+    settingsAction = new QAction(tr("Settings"), this);
+    exitAction     = new QAction(tr("E&xit"), this);
+
+    connect(settingsAction, &QAction::triggered, this, &MainWindow::onSettingsClick);
+    connect(exitAction, &QAction::triggered, this, &MainWindow::onExitClick);
+
+    fileMenu->addAction(settingsAction);
+    fileMenu->addSeparator();
+    fileMenu->addAction(exitAction);
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -44,8 +59,17 @@ void MainWindow::on_pushButton_clicked()
 	auto windows = result.value();
     ui->listWindows->clear();
 
-    for(auto& item: windows) {
+    for (auto& item : windows) {
         auto value = QString::fromWCharArray(item.title.data(), item.title.size());
         ui->listWindows->addItem(value);
     }
+}
+
+void MainWindow::onSettingsClick()
+{
+}
+
+void MainWindow::onExitClick()
+{
+    close();
 }

@@ -23,7 +23,7 @@ BOOL CALLBACK enum_windows_callback(HWND hwnd, LPARAM lparam)
 		if (!IsWindowVisible(hwnd) || title_length == 0)
 			return TRUE;
 
-		// (?) Required to take the full text of the window title.
+		// Increment required to take the full text of the window title. (?)
 		title_length++;
 		info.title.resize(title_length);
 		chars_copied = GetWindowTextW(hwnd, info.title.data(), title_length);
