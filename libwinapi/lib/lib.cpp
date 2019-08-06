@@ -4,6 +4,7 @@
 #include <libwinapi/lib.hpp>
 
 using WindowInfo = libwinapi::models::WindowInfo;
+using Win32Error = libwinapi::errors::Win32Error;
 
 struct EnumWindowsParam {
 	std::vector<WindowInfo>* windows;
@@ -21,8 +22,8 @@ BOOL CALLBACK enum_windows_callback(HWND hwnd, LPARAM lparam)
 		if (!IsWindowVisible(hwnd) || title_length == 0)
 			return TRUE;
 
-		info.title.resize(title_length);
-		GetWindowTextW(hwnd, info.title.data(), title_length);
+		info.title.resize(title_length + 1);
+		GetWindowTextW(hwnd, info.title.data(), title_length + 1);
 		params->windows->push_back(std::move(info));
 	} catch (...) {
 		params->eptr = std::current_exception();
@@ -32,7 +33,7 @@ BOOL CALLBACK enum_windows_callback(HWND hwnd, LPARAM lparam)
 	return TRUE;
 }
 
-std::vector<WindowInfo> libwinapi::get_open_windows()
+std::optional<std::vector<WindowInfo>> libwinapi::get_open_windows(Win32Error& err)
 {
 	std::vector<WindowInfo> windows;
 	EnumWindowsParam        params;
@@ -43,6 +44,10 @@ std::vector<WindowInfo> libwinapi::get_open_windows()
 
 	if (params.eptr)
 		std::rethrow_exception(params.eptr);
+	if (result == 0) {
+		err.set_error("enumerate windows failed!");
+		return std::nullopt;
+	}
 
 	return windows;
 }

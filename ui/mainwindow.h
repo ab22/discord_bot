@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <vector>
+#include <libwinapi/lib.hpp>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +22,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    std::vector<libwinapi::models::WindowInfo> open_windows;
 };
 
 #endif // MAINWINDOW_H
