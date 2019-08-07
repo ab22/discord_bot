@@ -11,26 +11,26 @@ MainWindow::MainWindow(QWidget* parent)
     , ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-    setupMenuBar();
+	setupMenuBar();
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+	delete ui;
 }
 
 void MainWindow::setupMenuBar()
 {
-    fileMenu       = menuBar()->addMenu(tr("&File"));
-    settingsAction = new QAction(tr("Settings"), this);
-    exitAction     = new QAction(tr("E&xit"), this);
+	fileMenu       = menuBar()->addMenu(tr("&File"));
+	settingsAction = new QAction(tr("Settings"), this);
+	exitAction     = new QAction(tr("E&xit"), this);
 
-    connect(settingsAction, &QAction::triggered, this, &MainWindow::onSettingsClick);
-    connect(exitAction, &QAction::triggered, this, &MainWindow::onExitClick);
+	connect(settingsAction, &QAction::triggered, this, &MainWindow::onSettingsClick);
+	connect(exitAction, &QAction::triggered, this, &MainWindow::onExitClick);
 
-    fileMenu->addAction(settingsAction);
-    fileMenu->addSeparator();
-    fileMenu->addAction(exitAction);
+	fileMenu->addAction(settingsAction);
+	fileMenu->addSeparator();
+	fileMenu->addAction(exitAction);
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -38,31 +38,31 @@ void MainWindow::on_pushButton_clicked()
 	Win32Error  err;
 	QString     message;
 	QMessageBox msg;
-    auto        result = winService.get_open_windows(err);
+	auto        result = winService.get_open_windows(err);
 
 	if (err) {
 		msg.setText(err.message());
-        msg.setInformativeText("Error!");
-        msg.setStandardButtons(QMessageBox::Ok);
-        msg.setDefaultButton(QMessageBox::Ok);
-        msg.exec();
-        return;
-    } else if (!result) {
-		msg.setText("No windows open!");
-        msg.setInformativeText("Error!");
+		msg.setInformativeText("Error!");
 		msg.setStandardButtons(QMessageBox::Ok);
 		msg.setDefaultButton(QMessageBox::Ok);
 		msg.exec();
 		return;
-    }
+	} else if (!result) {
+		msg.setText("No windows open!");
+		msg.setInformativeText("Error!");
+		msg.setStandardButtons(QMessageBox::Ok);
+		msg.setDefaultButton(QMessageBox::Ok);
+		msg.exec();
+		return;
+	}
 
-    auto titles = result.value();
-    ui->listWindows->clear();
+	auto titles = result.value();
+	ui->listWindows->clear();
 
-    for (const auto& title : titles) {
-        const auto value = QString::fromWCharArray(title.text.data(), title.length);
-        ui->listWindows->addItem(value);
-    }
+	for (const auto& title : titles) {
+		const auto value = QString::fromWCharArray(title.text.data(), title.length);
+		ui->listWindows->addItem(value);
+	}
 }
 
 void MainWindow::onSettingsClick()
@@ -71,5 +71,5 @@ void MainWindow::onSettingsClick()
 
 void MainWindow::onExitClick()
 {
-    close();
+	close();
 }
