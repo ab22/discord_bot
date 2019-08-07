@@ -1,0 +1,3 @@
+[submodule "libwinapi/vendor/googletest"]
+	path = libwinapi/vendor/googletest
+	url = https://github.com/google/googletest

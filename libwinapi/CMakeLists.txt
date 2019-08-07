@@ -23,6 +23,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     add_compile_options(/W4)
     add_compile_definitions(WIN32_LEAN_AND_MEAN=1)
@@ -34,10 +39,10 @@ endif()
 add_subdirectory(lib)
 
 # Enable testing
-# option(LIBWINAPI_TESTS "Build tests" ON)
-#
-# if (LIBWINAPI_TESTS)
-#	include(CTest)
-#	enable_testing()
-#   add_subdirectory(tests)
-# endif()
+option(LIBWINAPI_TESTS "Build tests" ON)
+
+if (LIBWINAPI_TESTS)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
