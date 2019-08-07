@@ -6,8 +6,7 @@
 #include <vector>
 
 using libwinapi::models::WindowInfo;
-using libwinapi::os_adapters::WinOS;
-using libwinapi::services::OSService;
+using libwinapi::services::WinService;
 
 namespace Ui {
     class MainWindow;
@@ -24,8 +23,8 @@ class MainWindow: public QMainWindow {
     void on_pushButton_clicked();
 
   private:
-    OSService<WinOS>        winService;
     Ui::MainWindow*         ui;
+    WinService              winService;
     QMenu*                  fileMenu;
     QAction*                settingsAction;
     QAction*                exitAction;
