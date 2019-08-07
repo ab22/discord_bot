@@ -49,18 +49,18 @@ void MainWindow::on_pushButton_clicked()
         return;
     } else if (!result) {
 		msg.setText("No windows open!");
-		msg.setInformativeText("Magic number from libwinapi :D!");
+        msg.setInformativeText("Error!");
 		msg.setStandardButtons(QMessageBox::Ok);
 		msg.setDefaultButton(QMessageBox::Ok);
 		msg.exec();
 		return;
     }
 
-    auto windows = result.value();
+    auto titles = result.value();
     ui->listWindows->clear();
 
-    for (auto& item : windows) {
-        auto value = QString::fromWCharArray(item.title.data(), item.title.size());
+    for (const auto& title : titles) {
+        const auto value = QString::fromWCharArray(title.text.data(), title.length);
         ui->listWindows->addItem(value);
     }
 }

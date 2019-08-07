@@ -5,36 +5,36 @@
 #include <libwinapi/lib.hpp>
 #include <vector>
 
-using libwinapi::models::WindowInfo;
+using libwinapi::models::WindowTitle;
 using libwinapi::services::WinService;
 
 namespace Ui {
-    class MainWindow;
+	class MainWindow;
 }
 
 class MainWindow: public QMainWindow {
-    Q_OBJECT
+	Q_OBJECT
 
   public:
-    explicit MainWindow(QWidget* parent = nullptr);
-    ~MainWindow();
+	explicit MainWindow(QWidget* parent = nullptr);
+	~MainWindow();
 
   private slots:
-    void on_pushButton_clicked();
+	void on_pushButton_clicked();
 
   private:
-    Ui::MainWindow*         ui;
-    WinService              winService;
-    QMenu*                  fileMenu;
-    QAction*                settingsAction;
-    QAction*                exitAction;
-    std::vector<WindowInfo> openWindows;
+	Ui::MainWindow*          ui;
+	WinService               winService;
+	QMenu*                   fileMenu;
+	QAction*                 settingsAction;
+	QAction*                 exitAction;
+	std::vector<WindowTitle> openWindows;
 
-    void setupMenuBar();
+	void setupMenuBar();
 
-    // Menu Events
-    void onSettingsClick();
-    void onExitClick();
+	// Menu Events
+	void onSettingsClick();
+	void onExitClick();
 };
 
 #endif // MAINWINDOW_H
