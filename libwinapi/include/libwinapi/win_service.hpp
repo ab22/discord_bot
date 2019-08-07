@@ -19,6 +19,6 @@ namespace libwinapi::services {
 
 	  public:
 		// Returns all open windows that are visible and have a title.
-		std::optional<std::vector<models::WindowInfo>> get_open_windows(Win32Error& err);
+		std::optional<std::vector<models::WindowTitle>> get_open_windows(Win32Error& err);
 	};
 }

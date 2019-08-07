@@ -16,19 +16,19 @@ namespace libwinapi::internal::services {
 	  private:
 		using EnumWindowsParam = libwinapi::internal::models::EnumWindowsParam<OS>;
 		using Win32Error       = libwinapi::errors::Win32Error;
-		using WindowInfo       = libwinapi::models::WindowInfo;
+		using WindowTitle      = libwinapi::models::WindowTitle;
 
 		OS _os;
 
 	  public:
 		// Retrieves all opened windows.
-		std::optional<std::vector<WindowInfo>> get_open_windows(Win32Error& err)
+		std::optional<std::vector<WindowTitle>> get_open_windows(Win32Error& err)
 		{
-			std::vector<WindowInfo> windows;
-			EnumWindowsParam        params;
-			params.eptr    = nullptr;
-			params.windows = &windows;
-			params.os      = &_os;
+			std::vector<WindowTitle> titles;
+			EnumWindowsParam         params;
+			params.eptr   = nullptr;
+			params.titles = &titles;
+			params.os     = &_os;
 
 			auto result = _os.enum_windows(
 			    libwinapi::internal::callbacks::enum_windows_callback<OS>,
@@ -41,7 +41,7 @@ namespace libwinapi::internal::services {
 				return std::nullopt;
 			}
 
-			return windows;
+			return titles;
 		}
 	};
 }

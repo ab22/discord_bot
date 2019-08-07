@@ -5,8 +5,9 @@
 #include <vector>
 
 namespace libwinapi::models {
-	struct WindowInfo {
+	struct WindowTitle {
 		HWND         hwnd;
-		std::wstring title;
+		std::wstring text;
+		int          length;
 	};
 }

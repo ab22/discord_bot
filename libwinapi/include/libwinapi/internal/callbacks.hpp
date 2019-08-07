@@ -8,7 +8,7 @@
 
 namespace libwinapi::internal::callbacks {
 	using libwinapi::internal::models::EnumWindowsParam;
-	using libwinapi::internal::models::WindowInfo;
+	using libwinapi::internal::models::WindowTitle;
 	using libwinapi::internal::os_adapters::WinAPI;
 
 	template <typename OS>
@@ -18,22 +18,21 @@ namespace libwinapi::internal::callbacks {
 		auto* os     = params->os;
 
 		try {
-			WindowInfo info;
-			int        title_length = os->get_window_text_length_w(hwnd);
-			int        chars_copied = 0;
+			WindowTitle title;
+			int         text_length = os->get_window_text_length_w(hwnd);
 
-			if (!os->is_window_visible(hwnd) || title_length == 0)
+			if (!os->is_window_visible(hwnd) || text_length == 0)
 				return TRUE;
 
 			// Increment required to take the full text of the window title. (?)
-			title_length++;
-			info.title.resize(title_length);
-			chars_copied = os->get_window_text_w(hwnd, info.title.data(), title_length);
+			text_length++;
+			title.text.resize(text_length);
+			title.length = os->get_window_text_w(hwnd, title.text.data(), text_length);
 
-			if (chars_copied == 0)
+			if (title.length == 0)
 				return FALSE;
 
-			params->windows->push_back(std::move(info));
+			params->titles->push_back(std::move(title));
 		} catch (...) {
 			params->eptr = std::current_exception();
 			return FALSE;
