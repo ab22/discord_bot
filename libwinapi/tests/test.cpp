@@ -2,17 +2,20 @@
 #include <libwinapi/lib.hpp>
 
 using libwinapi::_internal::WinAPI;
+using ::testing::Return;
 
-class MockPacketStream {
+class MockWinAPI {
   public:
-	MOCK_METHOD(size_t, NumberOfPackets, (), (const));
+	MOCK_METHOD(int, get_window_text_length_w, (HWND));
 };
 
-TEST(TestMagicalNumber, ValidateMagicNumber)
+TEST(TestWinAPIMock, ValidateWindowTextLength)
 {
-	int magic_number = 11 * 2;
+	MockWinAPI api;
 
-	EXPECT_EQ(magic_number, 22);
+	ON_CALL(api, get_window_text_length_w(0)).WillByDefault(Return(22));
+	EXPECT_CALL(api, get_window_text_length_w(0)).Times(1);
+	EXPECT_EQ(api.get_window_text_length_w(0), 22);
 }
 
 int main(int argc, char* argv[])
