@@ -3,7 +3,7 @@
 #include "../defines.hpp"
 #include <Windows.h>
 
-namespace libwinapi::internal::os_adapters {
+namespace libwinapi::_internal {
 	class WinAPI {
 	  public:
 		int  get_window_text_length_w(HWND);

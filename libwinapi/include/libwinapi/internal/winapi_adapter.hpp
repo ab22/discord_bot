@@ -5,20 +5,20 @@
 #include "../models.hpp"
 #include "callbacks.hpp"
 #include "models.hpp"
-#include "win_api.hpp"
 
 #include <optional>
 #include <vector>
 
-namespace libwinapi::internal::services {
-	template <class OS>
-	class EXPORT OSService {
+namespace libwinapi::_internal::adapters {
+	template <class API>
+	class EXPORT WinAPIAdapter {
 	  private:
-		using EnumWindowsParam = libwinapi::internal::models::EnumWindowsParam<OS>;
+		using EnumWindowsParam = libwinapi::_internal::models::EnumWindowsParam<API>;
 		using Win32Error       = libwinapi::errors::Win32Error;
 		using WindowTitle      = libwinapi::models::WindowTitle;
+		using Callbacks        = libwinapi::_internal::Callbacks<API>;
 
-		OS _os;
+		API _api;
 
 	  public:
 		// Retrieves all opened windows.
@@ -28,11 +28,9 @@ namespace libwinapi::internal::services {
 			EnumWindowsParam         params;
 			params.eptr   = nullptr;
 			params.titles = &titles;
-			params.os     = &_os;
 
-			auto result = _os.enum_windows(
-			    libwinapi::internal::callbacks::enum_windows_callback<OS>,
-			    reinterpret_cast<LPARAM>(&params));
+			auto result = _api.enum_windows(
+			    Callbacks::enum_windows, reinterpret_cast<LPARAM>(&params));
 
 			if (params.eptr)
 				std::rethrow_exception(params.eptr);

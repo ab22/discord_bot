@@ -1,5 +1,12 @@
-#include <gtest/gtest.h>
+#include "gmock/gmock.h"
 #include <libwinapi/lib.hpp>
+
+using libwinapi::_internal::WinAPI;
+
+class MockPacketStream {
+  public:
+	MOCK_METHOD(size_t, NumberOfPackets, (), (const));
+};
 
 TEST(TestMagicalNumber, ValidateMagicNumber)
 {

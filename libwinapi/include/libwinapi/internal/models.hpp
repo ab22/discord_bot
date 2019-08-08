@@ -2,13 +2,13 @@
 
 #include "../models.hpp"
 
-namespace libwinapi::internal::models {
+namespace libwinapi::_internal::models {
 	using libwinapi::models::WindowTitle;
 
-	template <class OS>
+	template <class API>
 	struct EnumWindowsParam {
 		std::vector<WindowTitle>* titles;
 		std::exception_ptr        eptr;
-		OS*                       os;
+		API*                      api;
 	};
 }

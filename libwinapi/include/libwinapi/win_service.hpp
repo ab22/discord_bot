@@ -2,20 +2,20 @@
 
 #include "defines.hpp"
 #include "errors.hpp"
-#include "internal/os_service.hpp"
-#include "internal/win_api.hpp"
+#include "internal/winapi.hpp"
+#include "internal/winapi_adapter.hpp"
 
 #include <optional>
 #include <vector>
 
 namespace libwinapi::services {
-	using libwinapi::errors::Win32Error;
-	using libwinapi::internal::os_adapters::WinAPI;
-	using libwinapi::internal::services::OSService;
-
 	class EXPORT WinService {
 	  private:
-		OSService<WinAPI> _os;
+		using Win32Error    = libwinapi::errors::Win32Error;
+		using WinAPI        = libwinapi::_internal::WinAPI;
+		using WinAPIAdapter = libwinapi::_internal::adapters::WinAPIAdapter<WinAPI>;
+
+		WinAPIAdapter _winapi;
 
 	  public:
 		// Returns all open windows that are visible and have a title.
