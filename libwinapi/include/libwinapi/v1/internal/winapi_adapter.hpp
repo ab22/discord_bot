@@ -9,14 +9,14 @@
 #include <optional>
 #include <vector>
 
-namespace libwinapi::_internal::adapters {
+namespace libwinapi::v1::_internal::adapters {
 	template <class API>
 	class EXPORT WinAPIAdapter {
 	  private:
-		using EnumWindowsParam = libwinapi::_internal::models::EnumWindowsParam<API>;
-		using Win32Error       = libwinapi::errors::Win32Error;
-		using WindowTitle      = libwinapi::models::WindowTitle;
-		using Callbacks        = libwinapi::_internal::Callbacks<API>;
+		using EnumWindowsParam = models::EnumWindowsParam<API>;
+		using Win32Error       = v1::errors::Win32Error;
+		using WindowTitle      = v1::models::WindowTitle;
+		using Callbacks        = _internal::Callbacks<API>;
 
 		API _api;
 

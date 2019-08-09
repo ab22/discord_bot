@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace libwinapi::models {
+namespace libwinapi::v1::models {
 	struct WindowTitle {
 		HWND         hwnd;
 		std::wstring text;

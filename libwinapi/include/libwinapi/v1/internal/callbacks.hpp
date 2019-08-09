@@ -6,12 +6,12 @@
 #include "models.hpp"
 #include "winapi.hpp"
 
-namespace libwinapi::_internal {
+namespace libwinapi::v1::_internal {
 	template <class API>
 	class Callbacks {
 	  private:
-		using EnumWindowsParam = libwinapi::_internal::models::EnumWindowsParam<API>;
-		using WindowTitle      = libwinapi::_internal::models::WindowTitle;
+		using EnumWindowsParam = models::EnumWindowsParam<API>;
+		using WindowTitle      = models::WindowTitle;
 
 	  public:
 		static BOOL CALLBACK enum_windows(HWND hwnd, LPARAM lparam)
