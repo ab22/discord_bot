@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include <optional>
 
-using Win32Error = libwinapi::errors::Win32Error;
+using libwinapi::errors::Win32Error;
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
