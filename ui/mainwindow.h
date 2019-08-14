@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <libwinapi/lib.hpp>
 #include <vector>
+
+#include <libwinapi/lib.hpp>
 
 using libwinapi::models::WindowTitle;
 using libwinapi::services::WinService;
@@ -23,11 +24,12 @@ class MainWindow: public QMainWindow {
 	void on_pushButton_clicked();
 
   private:
-	Ui::MainWindow*          ui;
+	Ui::MainWindow* ui;
+	QMenu*          fileMenu;
+	QAction*        settingsAction;
+	QAction*        exitAction;
+
 	WinService               winService;
-	QMenu*                   fileMenu;
-	QAction*                 settingsAction;
-	QAction*                 exitAction;
 	std::vector<WindowTitle> openWindows;
 
 	void setupMenuBar();
