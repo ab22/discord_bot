@@ -27,7 +27,7 @@ namespace libwinapi::v1::_internal {
 					return TRUE;
 
 				// Increment required to take the full text of the window title. (?)
-				text_length++;
+				// text_length++;
 				title.hwnd = hwnd;
 				title.text.resize(text_length);
 				title.length =

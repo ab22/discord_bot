@@ -15,7 +15,7 @@ namespace libtests::v1 {
 	using testing::SetArrayArgument;
 	using testing::Throw;
 
-	TEST(TestEnumWindowsCallback, should_return_correct_titles)
+	TEST(Test_EnumWindowsCallback, should_return_correct_titles)
 	{
 		EnumWindowsParam<v1::MockWinAPI> params;
 		Callbacks<v1::MockWinAPI>        callbacks;
@@ -34,8 +34,8 @@ namespace libtests::v1 {
 		EXPECT_CALL(api, get_window_text_length_w(hwnd))
 		    .Times(1)
 		    .WillOnce(Return(test_str_len));
-		EXPECT_CALL(api, is_window_visible(hwnd)).Times(1).WillOnce(Return(true));
-		EXPECT_CALL(api, get_window_text_w(hwnd, testing::_, test_str_len + 1))
+		EXPECT_CALL(api, is_window_visible(hwnd)).Times(1).WillOnce(Return(TRUE));
+		EXPECT_CALL(api, get_window_text_w(hwnd, testing::_, test_str_len))
 		    .Times(1)
 		    .WillOnce(DoAll(
 		        SetArrayArgument<1>(test_title.begin(), test_title.end()),
@@ -56,8 +56,8 @@ namespace libtests::v1 {
 		Callbacks<v1::MockWinAPI>        callbacks;
 		std::vector<WindowTitle>         titles;
 		v1::MockWinAPI                   api;
-		HWND                             hwnd = (HWND)(0x22);
 		BOOL                             cb_result;
+		HWND                             hwnd    = (HWND)(0x22);
 		auto                             msg     = "Test Exception";
 		auto                             test_ex = std::exception(msg);
 
@@ -81,5 +81,81 @@ namespace libtests::v1 {
 		} catch (std::exception& ex) {
 			EXPECT_STREQ(ex.what(), test_ex.what());
 		}
+	}
+
+	TEST(Test_EnumWindowsCallback, should_not_return_empty_title_windows)
+	{
+		EnumWindowsParam<v1::MockWinAPI> params;
+		Callbacks<v1::MockWinAPI>        callbacks;
+		std::vector<WindowTitle>         titles;
+		v1::MockWinAPI                   api;
+		BOOL                             cb_result;
+		HWND                             hwnd    = (HWND)(0x22);
+		auto                             msg     = "Test Exception";
+		auto                             test_ex = std::exception(msg);
+
+		params.api    = &api;
+		params.titles = &titles;
+		params.eptr   = nullptr;
+
+		EXPECT_CALL(api, get_window_text_length_w(hwnd)).Times(1).WillOnce(Return(0));
+		EXPECT_CALL(api, is_window_visible(hwnd)).Times(1).WillOnce(Return(TRUE));
+
+		cb_result = callbacks.enum_windows(hwnd, reinterpret_cast<LPARAM>(&params));
+
+		EXPECT_EQ(cb_result, TRUE);
+		EXPECT_EQ(titles.size(), 0);
+	}
+
+	TEST(Test_EnumWindowsCallback, should_not_return_invisible_window_titles)
+	{
+		EnumWindowsParam<v1::MockWinAPI> params;
+		Callbacks<v1::MockWinAPI>        callbacks;
+		std::vector<WindowTitle>         titles;
+		v1::MockWinAPI                   api;
+		BOOL                             cb_result;
+		HWND                             hwnd    = (HWND)(0x22);
+		auto                             msg     = "Test Exception";
+		auto                             test_ex = std::exception(msg);
+
+		params.api    = &api;
+		params.titles = &titles;
+		params.eptr   = nullptr;
+
+		EXPECT_CALL(api, get_window_text_length_w(hwnd)).Times(1).WillOnce(Return(1));
+		EXPECT_CALL(api, is_window_visible(hwnd)).Times(1).WillOnce(Return(FALSE));
+
+		cb_result = callbacks.enum_windows(hwnd, reinterpret_cast<LPARAM>(&params));
+
+		EXPECT_EQ(cb_result, TRUE);
+		EXPECT_EQ(titles.size(), 0);
+	}
+
+	TEST(Test_EnumWindowsCallback, should_return_false_when_get_text_fails)
+	{
+		EnumWindowsParam<v1::MockWinAPI> params;
+		Callbacks<v1::MockWinAPI>        callbacks;
+		std::vector<WindowTitle>         titles;
+		v1::MockWinAPI                   api;
+		BOOL                             cb_result;
+		HWND                             hwnd      = (HWND)(0x22);
+		constexpr int                    title_len = 10;
+
+		params.api    = &api;
+		params.titles = &titles;
+		params.eptr   = nullptr;
+
+		EXPECT_CALL(api, get_window_text_length_w(hwnd))
+		    .Times(1)
+		    .WillOnce(Return(title_len));
+		EXPECT_CALL(api, is_window_visible(hwnd)).Times(1).WillOnce(Return(TRUE));
+		EXPECT_CALL(api, get_window_text_w(hwnd, testing::_, title_len))
+		    .Times(1)
+		    .WillOnce(Return(0));
+
+		cb_result = callbacks.enum_windows(hwnd, reinterpret_cast<LPARAM>(&params));
+
+		EXPECT_EQ(cb_result, FALSE);
+		EXPECT_EQ(titles.size(), 0);
 	}
 }
