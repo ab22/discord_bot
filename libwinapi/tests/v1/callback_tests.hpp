@@ -21,25 +21,25 @@ namespace libtests::v1 {
 		Callbacks<v1::MockWinAPI>        callbacks;
 		std::vector<WindowTitle>         titles;
 		v1::MockWinAPI                   api;
+		BOOL                             cb_result;
+		int                              test_str_len;
+		std::wstring                     test_title = L"Window Test Title";
+		HWND                             hwnd       = (HWND)(0x22);
 
-		std::wstring test_title       = L"Window Test Title";
-		int          expected_str_len = static_cast<int>(test_title.size());
-		HWND         hwnd             = (HWND)(0x22);
-		BOOL         cb_result;
-
+		test_str_len  = static_cast<int>(test_title.size());
 		params.api    = &api;
 		params.titles = &titles;
 		params.eptr   = nullptr;
 
 		EXPECT_CALL(api, get_window_text_length_w(hwnd))
 		    .Times(1)
-		    .WillOnce(Return(expected_str_len));
+		    .WillOnce(Return(test_str_len));
 		EXPECT_CALL(api, is_window_visible(hwnd)).Times(1).WillOnce(Return(true));
-		EXPECT_CALL(api, get_window_text_w(hwnd, testing::_, expected_str_len + 1))
+		EXPECT_CALL(api, get_window_text_w(hwnd, testing::_, test_str_len + 1))
 		    .Times(1)
 		    .WillOnce(DoAll(
 		        SetArrayArgument<1>(test_title.begin(), test_title.end()),
-		        Return(expected_str_len)));
+		        Return(test_str_len)));
 
 		cb_result = callbacks.enum_windows(hwnd, reinterpret_cast<LPARAM>(&params));
 
