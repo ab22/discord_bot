@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace libtests::v1 {
+namespace libtests::v1::callbacks {
 	using libwinapi::_internal::Callbacks;
 	using libwinapi::_internal::models::EnumWindowsParam;
 	using libwinapi::models::WindowTitle;
