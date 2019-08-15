@@ -1,4 +1,4 @@
-#include "v1/api_v1_tests.hpp"
+#include "v1/v1_tests.hpp"
 
 int main(int argc, char* argv[])
 {
