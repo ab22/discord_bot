@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../models.hpp"
+#include "../core/models.hpp"
 
 namespace libwinapi::v1::_internal::models {
-	using v1::models::WindowTitle;
+	using v1::core::models::WindowTitle;
 
 	template <class API>
 	struct EnumWindowsParam {

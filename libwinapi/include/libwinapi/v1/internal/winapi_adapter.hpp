@@ -1,8 +1,8 @@
 #pragma once
 
+#include "../core/errors.hpp"
+#include "../core/models.hpp"
 #include "../defines.hpp"
-#include "../errors.hpp"
-#include "../models.hpp"
 #include "callbacks.hpp"
 #include "models.hpp"
 
@@ -14,8 +14,8 @@ namespace libwinapi::v1::_internal::adapters {
 	class EXPORT WinAPIAdapter {
 	  private:
 		using EnumWindowsParam = models::EnumWindowsParam<API>;
-		using Win32Error       = v1::errors::Win32Error;
-		using WindowTitle      = v1::models::WindowTitle;
+		using Win32Error       = v1::core::errors::Win32Error;
+		using WindowTitle      = v1::core::models::WindowTitle;
 		using Callbacks        = _internal::Callbacks<API>;
 
 		API _api;

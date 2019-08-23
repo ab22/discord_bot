@@ -1,6 +1,6 @@
-#include <libwinapi/v1/errors.hpp>
+#include <libwinapi/v1/core/errors.hpp>
 
-using libwinapi::v1::errors::Win32Error;
+using libwinapi::v1::core::errors::Win32Error;
 
 Win32Error::Win32Error() noexcept
     : _failed(false)

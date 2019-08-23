@@ -7,7 +7,7 @@
 namespace libtests::v1::callbacks {
 	using libwinapi::_internal::Callbacks;
 	using libwinapi::_internal::models::EnumWindowsParam;
-	using libwinapi::models::WindowTitle;
+	using libwinapi::core::models::WindowTitle;
 
 	using testing::An;
 	using testing::DoAll;
