@@ -35,7 +35,7 @@ namespace libtests::v1::callbacks {
 		    .Times(1)
 		    .WillOnce(Return(test_str_len));
 		EXPECT_CALL(api, is_window_visible(hwnd)).Times(1).WillOnce(Return(TRUE));
-		EXPECT_CALL(api, get_window_text_w(hwnd, testing::_, test_str_len))
+		EXPECT_CALL(api, get_window_text_w(hwnd, testing::_, test_str_len + 1))
 		    .Times(1)
 		    .WillOnce(DoAll(
 		        SetArrayArgument<1>(test_title.begin(), test_title.end()),
@@ -149,7 +149,7 @@ namespace libtests::v1::callbacks {
 		    .Times(1)
 		    .WillOnce(Return(title_len));
 		EXPECT_CALL(api, is_window_visible(hwnd)).Times(1).WillOnce(Return(TRUE));
-		EXPECT_CALL(api, get_window_text_w(hwnd, testing::_, title_len))
+		EXPECT_CALL(api, get_window_text_w(hwnd, testing::_, title_len + 1))
 		    .Times(1)
 		    .WillOnce(Return(0));
 
