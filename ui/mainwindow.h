@@ -6,8 +6,8 @@
 
 #include <libwinapi/lib.hpp>
 
-using libwinapi::models::WindowTitle;
-using libwinapi::services::WinService;
+using libwinapi::core::models::WindowTitle;
+using libwinapi::core::services::WinService;
 
 namespace Ui {
 	class MainWindow;
