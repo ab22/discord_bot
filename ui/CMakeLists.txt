@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 project(ui LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORRC ON)
+set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 if (NOT DEFINED ENV{QTPATH})
@@ -19,10 +19,12 @@ endif()
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_executable(discord_bot
-    WIN32
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+
+    themes/qdarkstyle/style.qrc
+    themes/breeze/breeze.qrc
 )
 
 target_include_directories(discord_bot
