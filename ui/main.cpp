@@ -6,19 +6,27 @@
 #include <QTextStream>
 #include <QtDebug>
 
+bool loadTheme(QApplication& app, const char* themeName)
+{
+	QFile f(themeName);
+
+	if (!f.exists())
+		return false;
+
+	f.open(QFile::ReadOnly | QFile::Text);
+	QTextStream stream(&f);
+
+	app.setStyleSheet(stream.readAll());
+	return true;
+}
+
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
-	MainWindow   w;
-	QFile        f(":qdarkstyle/style.qss");
+    MainWindow   w;
 
-	if (!f.exists()) {
-		qDebug() << "Could not open theme file!";
-	} else {
-		f.open(QFile::ReadOnly | QFile::Text);
-		QTextStream ts(&f);
-		app.setStyleSheet(ts.readAll());
-    }
+    if (!loadTheme(app, ":qdarkstyle/style.qss"))
+        qDebug() << "Could not open theme file!";
 
 	w.show();
 
