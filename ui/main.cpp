@@ -23,10 +23,10 @@ bool loadTheme(QApplication& app, const char* themeName)
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
-    MainWindow   w;
+	MainWindow   w;
 
-    if (!loadTheme(app, ":qdarkstyle/style.qss"))
-        qDebug() << "Could not open theme file!";
+	if (!loadTheme(app, ":qdarkstyle/style.qss"))
+		qDebug() << "Could not open theme file!";
 
 	w.show();
 
