@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 	QApplication app(argc, argv);
 	MainWindow   w;
 
-	if (!loadTheme(app, ":qdarkstyle/style.qss"))
+    if (!loadTheme(app, ":dark.qss"))
 		qDebug() << "Could not open theme file!";
 
 	w.show();

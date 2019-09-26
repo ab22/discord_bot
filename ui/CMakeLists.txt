@@ -24,7 +24,7 @@ add_executable(discord_bot
     mainwindow.h
 
     themes/qdarkstyle/style.qrc
-    themes/breeze/breeze.qrc
+    # themes/breeze/breeze.qrc
 )
 
 target_include_directories(discord_bot

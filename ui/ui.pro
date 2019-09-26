@@ -41,5 +41,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    themes/breeze/breeze.qrc
     themes/qdarkstyle/style.qrc
