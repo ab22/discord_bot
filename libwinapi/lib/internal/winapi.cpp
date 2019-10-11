@@ -1,6 +1,6 @@
-#include <libwinapi/v1/internal/winapi.hpp>
+#include <libwinapi/internal/winapi.hpp>
 
-using libwinapi::v1::_internal::WinAPI;
+using libwinapi::_internal::WinAPI;
 
 int WinAPI::get_window_text_length_w(HWND hwnd)
 {

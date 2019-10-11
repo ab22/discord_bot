@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace libtests::v1::callbacks {
+namespace libtests::callbacks {
 	using libwinapi::_internal::Callbacks;
 	using libwinapi::_internal::models::EnumWindowsParam;
 	using libwinapi::core::models::WindowTitle;
@@ -17,14 +17,14 @@ namespace libtests::v1::callbacks {
 
 	TEST(Test_EnumWindowsCallback, should_return_correct_titles)
 	{
-		EnumWindowsParam<v1::MockWinAPI> params;
-		Callbacks<v1::MockWinAPI>        callbacks;
-		std::vector<WindowTitle>         titles;
-		v1::MockWinAPI                   api;
-		BOOL                             cb_result;
-		int                              test_str_len;
-		std::wstring                     test_title = L"Window Test Title";
-		HWND                             hwnd       = (HWND)(0x22);
+		EnumWindowsParam<MockWinAPI> params;
+		Callbacks<MockWinAPI>        callbacks;
+		std::vector<WindowTitle>     titles;
+		MockWinAPI                   api;
+		BOOL                         cb_result;
+		int                          test_str_len;
+		std::wstring                 test_title = L"Window Test Title";
+		HWND                         hwnd       = (HWND)(0x22);
 
 		test_str_len  = static_cast<int>(test_title.size());
 		params.api    = &api;
@@ -52,14 +52,14 @@ namespace libtests::v1::callbacks {
 
 	TEST(Test_EnumWindowsCallback, should_set_exception_ptr)
 	{
-		EnumWindowsParam<v1::MockWinAPI> params;
-		Callbacks<v1::MockWinAPI>        callbacks;
-		std::vector<WindowTitle>         titles;
-		v1::MockWinAPI                   api;
-		BOOL                             cb_result;
-		HWND                             hwnd    = (HWND)(0x22);
-		auto                             msg     = "Test Exception";
-		auto                             test_ex = std::exception(msg);
+		EnumWindowsParam<MockWinAPI> params;
+		Callbacks<MockWinAPI>        callbacks;
+		std::vector<WindowTitle>     titles;
+		MockWinAPI                   api;
+		BOOL                         cb_result;
+		HWND                         hwnd    = (HWND)(0x22);
+		auto                         msg     = "Test Exception";
+		auto                         test_ex = std::exception(msg);
 
 		params.api    = &api;
 		params.titles = &titles;
@@ -85,14 +85,14 @@ namespace libtests::v1::callbacks {
 
 	TEST(Test_EnumWindowsCallback, should_not_return_empty_title_windows)
 	{
-		EnumWindowsParam<v1::MockWinAPI> params;
-		Callbacks<v1::MockWinAPI>        callbacks;
-		std::vector<WindowTitle>         titles;
-		v1::MockWinAPI                   api;
-		BOOL                             cb_result;
-		HWND                             hwnd    = (HWND)(0x22);
-		auto                             msg     = "Test Exception";
-		auto                             test_ex = std::exception(msg);
+		EnumWindowsParam<MockWinAPI> params;
+		Callbacks<MockWinAPI>        callbacks;
+		std::vector<WindowTitle>     titles;
+		MockWinAPI                   api;
+		BOOL                         cb_result;
+		HWND                         hwnd    = (HWND)(0x22);
+		auto                         msg     = "Test Exception";
+		auto                         test_ex = std::exception(msg);
 
 		params.api    = &api;
 		params.titles = &titles;
@@ -109,14 +109,14 @@ namespace libtests::v1::callbacks {
 
 	TEST(Test_EnumWindowsCallback, should_not_return_invisible_window_titles)
 	{
-		EnumWindowsParam<v1::MockWinAPI> params;
-		Callbacks<v1::MockWinAPI>        callbacks;
-		std::vector<WindowTitle>         titles;
-		v1::MockWinAPI                   api;
-		BOOL                             cb_result;
-		HWND                             hwnd    = (HWND)(0x22);
-		auto                             msg     = "Test Exception";
-		auto                             test_ex = std::exception(msg);
+		EnumWindowsParam<MockWinAPI> params;
+		Callbacks<MockWinAPI>        callbacks;
+		std::vector<WindowTitle>     titles;
+		MockWinAPI                   api;
+		BOOL                         cb_result;
+		HWND                         hwnd    = (HWND)(0x22);
+		auto                         msg     = "Test Exception";
+		auto                         test_ex = std::exception(msg);
 
 		params.api    = &api;
 		params.titles = &titles;
@@ -133,13 +133,13 @@ namespace libtests::v1::callbacks {
 
 	TEST(Test_EnumWindowsCallback, should_return_false_when_get_text_fails)
 	{
-		EnumWindowsParam<v1::MockWinAPI> params;
-		Callbacks<v1::MockWinAPI>        callbacks;
-		std::vector<WindowTitle>         titles;
-		v1::MockWinAPI                   api;
-		BOOL                             cb_result;
-		HWND                             hwnd      = (HWND)(0x22);
-		constexpr int                    title_len = 10;
+		EnumWindowsParam<MockWinAPI> params;
+		Callbacks<MockWinAPI>        callbacks;
+		std::vector<WindowTitle>     titles;
+		MockWinAPI                   api;
+		BOOL                         cb_result;
+		HWND                         hwnd      = (HWND)(0x22);
+		constexpr int                title_len = 10;
 
 		params.api    = &api;
 		params.titles = &titles;

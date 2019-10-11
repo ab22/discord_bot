@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../defines.hpp"
+#include "../defines.hpp"
 #include <Windows.h>
 
-namespace libwinapi::v1::core::errors {
+namespace libwinapi::core::errors {
 	class EXPORT Win32Error {
 	  private:
 		bool        _failed;

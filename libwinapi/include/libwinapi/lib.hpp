@@ -1,9 +1,10 @@
 #pragma once
 
+#include "core/errors.hpp"
+#include "core/models.hpp"
+#include "core/winservice.hpp"
 #include "defines.hpp"
-#include "v1/v1.hpp"
-
-namespace libwinapi {
-	// Use default version 1 api.
-	using namespace libwinapi::v1;
-}
+#include "internal/callbacks.hpp"
+#include "internal/models.hpp"
+#include "internal/winapi.hpp"
+#include "internal/winapi_adapter.hpp"

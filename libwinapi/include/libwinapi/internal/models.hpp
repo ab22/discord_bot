@@ -2,8 +2,8 @@
 
 #include "../core/models.hpp"
 
-namespace libwinapi::v1::_internal::models {
-	using v1::core::models::WindowTitle;
+namespace libwinapi::_internal::models {
+	using core::models::WindowTitle;
 
 	template <class API>
 	struct EnumWindowsParam {

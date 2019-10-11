@@ -6,7 +6,7 @@
 #include "models.hpp"
 #include "winapi.hpp"
 
-namespace libwinapi::v1::_internal {
+namespace libwinapi::_internal {
 	template <class API>
 	class Callbacks {
 	  private:

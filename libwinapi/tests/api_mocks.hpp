@@ -1,9 +1,9 @@
 #include <gmock/gmock.h>
 #include <libwinapi/lib.hpp>
 
-using libwinapi::v1::_internal::WinAPI;
+using libwinapi::_internal::WinAPI;
 
-namespace libtests::v1 {
+namespace libtests {
 	class MockWinAPI {
 	  public:
 		MOCK_METHOD(int, get_window_text_length_w, (HWND));
