@@ -5,14 +5,14 @@ project(libwinapi LANGUAGES CXX)
 # or if we are included as a subdirectory.
 set(MASTER_PROJECT ON)
 if (NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
-   # If we are not the master project, then stop project configuration. The
+    # If we are not the master project, then stop project configuration. The
     # rest of the options should be taken from the parent project.
     message(STATUS "Building libwinapi as children project...")
+    set(MASTER_PROJECT OFF)
 
     # Create Library without setting up any variable. The master cmake
     # file should set up these variables.
     add_subdirectory(lib)
-    set(MASTER_PROJECT OFF)
     return()
 endif()
 
@@ -30,7 +30,6 @@ set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     add_compile_options(/W4)
-    add_compile_definitions(WIN32_LEAN_AND_MEAN=1)
 else()
     message(FATAL_ERROR "Unsupported compiler: ${CMAKE_CXX_COMPILER_ID}")
 endif()

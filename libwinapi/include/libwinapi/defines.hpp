@@ -13,7 +13,7 @@
         #ifdef __GNUC__
             #define EXPORT __attribute__ ((dllimport))
         #else
-            #define EXPORT __declspec(dllexport)
+            #define EXPORT __declspec(dllimport)
         #endif
     #endif
 #else

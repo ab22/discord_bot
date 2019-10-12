@@ -26,3 +26,12 @@ target_include_directories(libwinapi
         "${CMAKE_CURRENT_SOURCE_DIR}/"
         "${CMAKE_CURRENT_SOURCE_DIR}/../include/"
 )
+
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    target_compile_definitions(libwinapi
+        PRIVATE
+            WIN32_LEAN_AND_MEAN
+            WIN_EXPORT
+    )
+endif()

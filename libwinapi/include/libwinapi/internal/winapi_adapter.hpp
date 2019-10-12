@@ -11,7 +11,7 @@
 
 namespace libwinapi::_internal::adapters {
 	template <class API>
-	class EXPORT WinAPIAdapter {
+	class WinAPIAdapter {
 	  private:
 		using EnumWindowsParam = models::EnumWindowsParam<API>;
 		using Win32Error       = core::errors::Win32Error;
