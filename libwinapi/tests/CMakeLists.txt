@@ -54,6 +54,7 @@ target_include_directories(libwinapi_tests
 		"${CMAKE_CURRENT_BINARY_DIR}"
 		"../include/"
 		"../vendor/googletest/googletest/include"
+		"${EXPECTED_INCLUDE_PATH}"
 )
 
 add_test(

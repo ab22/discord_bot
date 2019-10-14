@@ -26,10 +26,11 @@ set_target_properties(libwinapi
 )
 
 target_include_directories(libwinapi
+    PUBLIC
+        "${EXPECTED_INCLUDE_PATH}"
     PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/"
         "${CMAKE_CURRENT_SOURCE_DIR}/../include/"
-        "${EXPECTED_INCLUDE_PATH}"
 )
 
 

@@ -21,7 +21,6 @@ namespace libtests::winapi_adapter {
 	TEST(Test_GetOpenWindows, should_return_open_windows_list)
 	{
 		WinAPIAdapter<MockWinAPI> win_adapter;
-		Win32Error                err;
 		std::vector<WindowTitle>  test_titles{WindowTitle{(HWND)0x1, L"Test1", 5},
                                              WindowTitle{(HWND)0x2, L"Test2", 6},
                                              WindowTitle{(HWND)0x3, L"Test3", 7}};
@@ -39,10 +38,8 @@ namespace libtests::winapi_adapter {
 		        }),
 		        Return(TRUE)));
 
-		auto result = win_adapter.get_open_windows(err);
+		auto result = win_adapter.get_open_windows();
 		EXPECT_TRUE(result.has_value());
-		EXPECT_FALSE(err.is_error());
-
 		auto titles = result.value();
 		EXPECT_EQ(titles.size(), test_titles.size());
 
@@ -55,8 +52,8 @@ namespace libtests::winapi_adapter {
 
 	TEST(Test_GetOpenWindows, shold_return_null_option)
 	{
+		constexpr static DWORD    err_code = 22;
 		WinAPIAdapter<MockWinAPI> win_adapter;
-		Win32Error                err;
 		std::vector<WindowTitle>  test_titles{WindowTitle{(HWND)0x1, L"Test1", 5},
                                              WindowTitle{(HWND)0x2, L"Test2", 5},
                                              WindowTitle{(HWND)0x2, L"Test3", 5}};
@@ -65,9 +62,14 @@ namespace libtests::winapi_adapter {
 		    .Times(1)
 		    .WillOnce(Return(FALSE));
 
-		auto result = win_adapter.get_open_windows(err);
+		EXPECT_CALL(win_adapter._api, get_last_error())
+		    .Times(1)
+		    .WillOnce(Return(err_code));
+
+		auto result = win_adapter.get_open_windows();
 		EXPECT_FALSE(result.has_value());
-		EXPECT_TRUE(err.is_error());
+		EXPECT_TRUE(result.error().is_error());
+		EXPECT_TRUE(result.error().code(), err_code);
 	}
 
 	TEST(Test_GetOpenWindows, should_throw_exception_correctly)
@@ -94,7 +96,7 @@ namespace libtests::winapi_adapter {
 		        Return(FALSE)));
 
 		try {
-			auto result = win_adapter.get_open_windows(err);
+			auto result = win_adapter.get_open_windows();
 			// Should not hit this code.
 			EXPECT_TRUE(false);
 		} catch (std::exception& e) {

@@ -6,7 +6,7 @@
 #include "callbacks.hpp"
 #include "models.hpp"
 
-#include <optional>
+#include <tl/expected.hpp>
 #include <vector>
 
 namespace libwinapi::_internal::adapters {
@@ -22,7 +22,7 @@ namespace libwinapi::_internal::adapters {
 		API _api;
 
 		// Retrieves all opened windows.
-		std::optional<std::vector<WindowTitle>> get_open_windows(Win32Error& err)
+		tl::expected<std::vector<WindowTitle>, Win32Error> get_open_windows()
 		{
 			std::vector<WindowTitle> titles;
 			EnumWindowsParam         params;
@@ -35,8 +35,10 @@ namespace libwinapi::_internal::adapters {
 			if (params.eptr)
 				std::rethrow_exception(params.eptr);
 			if (result == 0) {
-				err.set_error("enumerate windows failed!");
-				return std::nullopt;
+				auto code = _api.get_last_error();
+				auto err  = Win32Error(code, "enumerate windows failed");
+
+				return tl::make_unexpected(std::move(err));
 			}
 
 			return titles;

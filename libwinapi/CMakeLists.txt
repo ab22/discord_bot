@@ -34,6 +34,10 @@ else()
     message(FATAL_ERROR "Unsupported compiler: ${CMAKE_CXX_COMPILER_ID}")
 endif()
 
+# Must be changed to use FindPackage or something.
+get_filename_component(PARENT_DIR "${CMAKE_SOURCE_DIR}" DIRECTORY)
+set(EXPECTED_INCLUDE_PATH "${PARENT_DIR}/vendor/expected/include")
+
 # Create Library after we have set variables.
 add_subdirectory(lib)
 
