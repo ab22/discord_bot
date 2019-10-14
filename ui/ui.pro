@@ -5,7 +5,9 @@
 #-------------------------------------------------
 
 QT       += core gui
-INCLUDEPATH += ../libwinapi/include
+INCLUDEPATH += \
+    ../libwinapi/include \
+    ../vendor/expected/include \
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

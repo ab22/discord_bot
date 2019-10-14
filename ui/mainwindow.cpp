@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 
 #include <QMessageBox>
-#include <optional>
 
 using libwinapi::core::errors::Win32Error;
 
@@ -23,7 +22,7 @@ void MainWindow::setupMenuBar()
 {
 	fileMenu       = menuBar()->addMenu(tr("&File"));
 	settingsAction = new QAction(tr("Settings"), this);
-	exitAction     = new QAction(tr("E&xit"), this);
+    exitAction     = new QAction(tr("E&xit"), this);
 
 	connect(settingsAction, &QAction::triggered, this, &MainWindow::onSettingsClick);
 	connect(exitAction, &QAction::triggered, this, &MainWindow::onExitClick);
@@ -35,26 +34,17 @@ void MainWindow::setupMenuBar()
 
 void MainWindow::on_pushButton_clicked()
 {
-	Win32Error  err;
-	QString     message;
-	QMessageBox msg;
-	auto        result = winService.get_open_windows(err);
+    auto result = winService.get_open_windows();
 
-	if (err) {
-		msg.setText(err.message());
+	if (!result) {        
+        QMessageBox msg;
+		msg.setText(result.error().message());
 		msg.setInformativeText("Error!");
 		msg.setStandardButtons(QMessageBox::Ok);
 		msg.setDefaultButton(QMessageBox::Ok);
 		msg.exec();
 		return;
-	} else if (!result) {
-		msg.setText("No windows open!");
-		msg.setInformativeText("Error!");
-		msg.setStandardButtons(QMessageBox::Ok);
-		msg.setDefaultButton(QMessageBox::Ok);
-		msg.exec();
-		return;
-	}
+    }
 
 	auto titles = result.value();
 	ui->listWindows->clear();
