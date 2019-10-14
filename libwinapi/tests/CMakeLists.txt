@@ -13,7 +13,10 @@ set_target_properties(gmock PROPERTIES FOLDER vendor)
 set_target_properties(gmock_main PROPERTIES FOLDER vendor)
 
 add_executable(libwinapi_tests
-    test.cpp
+	test.cpp
+	api_mocks.hpp
+	callback_tests.hpp
+	winapi_adapter_tests.hpp
 )
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
@@ -40,6 +43,7 @@ endif()
 
 target_link_libraries(libwinapi_tests
 	PRIVATE
+		libwinapi
 		gtest
 		gmock
 		gtest_main

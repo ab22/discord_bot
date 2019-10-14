@@ -1,3 +1,5 @@
+#pragma once
+
 #include "api_mocks.hpp"
 
 #include <exception>

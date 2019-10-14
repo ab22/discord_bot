@@ -18,9 +18,9 @@ namespace libwinapi::_internal::adapters {
 		using WindowTitle      = core::models::WindowTitle;
 		using Callbacks        = _internal::Callbacks<API>;
 
+	  public:
 		API _api;
 
-	  public:
 		// Retrieves all opened windows.
 		std::optional<std::vector<WindowTitle>> get_open_windows(Win32Error& err)
 		{
