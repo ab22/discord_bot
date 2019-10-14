@@ -6,6 +6,10 @@ project(winapi LANGUAGES CXX)
 # See https://blog.kitware.com/create-dlls
 SET(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
+if (NOT DEFINED EXPECTED_INCLUDE_PATH)
+    message (FATAL_ERROR "tl::expected include path not found!")
+endif()
+
 add_library(libwinapi
     SHARED
         core/errors.cpp
@@ -25,6 +29,7 @@ target_include_directories(libwinapi
     PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/"
         "${CMAKE_CURRENT_SOURCE_DIR}/../include/"
+        "${EXPECTED_INCLUDE_PATH}"
 )
 
 

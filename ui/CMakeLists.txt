@@ -9,6 +9,10 @@ if (NOT DEFINED ENV{QTPATH})
     message(FATAL_ERROR "QTPATH is not defined!")
 endif()
 
+if (NOT DEFINED EXPECTED_INCLUDE_PATH)
+    message (FATAL_ERROR "tl::expected include path not found!")
+endif()
+
 message(STATUS "QTPATH: $ENV{QTPATH}")
 set(CMAKE_PREFIX_PATH $ENV{QTPATH})
 
@@ -32,6 +36,7 @@ target_include_directories(discord_bot
     PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}"
         "${CMAKE_SOURCE_DIR}/libwinapi/include"
+        "${EXPECTED_INCLUDE_PATH}"
 )
 
 target_link_libraries(discord_bot

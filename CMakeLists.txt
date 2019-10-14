@@ -43,6 +43,8 @@ elseif ("${}BUILD_ARCH" STREQUAL "32bit")
     endif()
 endif ()
 
+set(EXPECTED_INCLUDE_PATH "${CMAKE_SOURCE_DIR}/vendor/expected/include")
+
 add_subdirectory("ui")
 add_subdirectory("libwinapi")
 add_subdirectory("vendor/fmt" EXCLUDE_FROM_ALL)
