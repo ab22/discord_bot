@@ -21,3 +21,8 @@ BOOL WinAPI::is_window_visible(HWND hwnd)
 {
 	return IsWindowVisible(hwnd);
 }
+
+DWORD WinAPI::get_last_error()
+{
+	return GetLastError();
+}
