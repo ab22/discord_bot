@@ -28,10 +28,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    add_compile_options(/W4)
-else()
-    message(FATAL_ERROR "Unsupported compiler: ${CMAKE_CXX_COMPILER_ID}")
+if (MSVC)
+    add_compile_options(/W4 /w44265 /w44061 /w44062)
+    add_compile_definitions(WIN32_LEAN_AND_MEAN=1)
+elseif (GNU OR Clang)
+    add_compile_options(-Wall -Wextra -Wunreachable-code -Wpedantic)
 endif()
 
 # Must be changed to use FindPackage or something.
