@@ -4,7 +4,7 @@ A pet project discord bot
 
 ## Building
 
-When building, a `QTPATH32` or `QTPATH64` variable must be specified in order to build the UI. If the variable is not defined, then a default path is taken based on my local config.
+When building, a `QTPATH32` or `QTPATH64` variable must be specified in order to build the UI.
 
 To build the project, create a `build/` folder for 32bit or `build64/` folder for 64bit. Those two folder names are already added to the `.gitignore` file so no need to worry
 about committing them:

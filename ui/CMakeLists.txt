@@ -5,22 +5,29 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-if (NOT DEFINED ENV{QTPATH})
-    message(FATAL_ERROR "QTPATH is not defined!")
+if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+    set(CMAKE_PREFIX_PATH $ENV{QT5_PATH64})
+else()
+    set(CMAKE_PREFIX_PATH $ENV{QT5_PATH})
 endif()
+
+message(STATUS "Qt5 Dir: ${CMAKE_PREFIX_PATH}")
 
 if (NOT DEFINED EXPECTED_INCLUDE_PATH)
     message (FATAL_ERROR "tl::expected include path not found!")
 endif()
 
-message(STATUS "QTPATH: $ENV{QTPATH}")
-set(CMAKE_PREFIX_PATH $ENV{QTPATH})
-
 if (CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5
+    COMPONENTS
+        Widgets
+        Core
+        Gui
+    REQUIRED
+)
 
 add_executable(discord_bot
     main.cpp
@@ -47,24 +54,17 @@ target_link_libraries(discord_bot
         Qt5::Widgets
 )
 
-# Utility function to copy QT libraries Ahinto bin/ dir.
-function(copy_qt_dll dll_path)
+if (WIN32)
     add_custom_command(
         TARGET
             discord_bot
         POST_BUILD
         COMMAND
             ${CMAKE_COMMAND} -E copy_if_different
-                ${dll_path}
-                $<TARGET_FILE_DIR:discord_bot>
+                $<TARGET_FILE:Qt5::Widgets>
+                $<TARGET_FILE:Qt5::Core>
+                $<TARGET_FILE:Qt5::Gui>
+                ...
+            $<TARGET_FILE_DIR:discord_bot>
     )
-endfunction()
-
-if (WIN32)
-    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Core.dll")
-    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Cored.dll")
-    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Gui.dll")
-    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Guid.dll")
-    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Widgets.dll")
-    copy_qt_dll("${CMAKE_PREFIX_PATH}/bin/Qt5Widgetsd.dll")
 endif()
