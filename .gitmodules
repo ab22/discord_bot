@@ -4,9 +4,3 @@
 [submodule "vendor/expected"]
 	path = vendor/expected
 	url = git@github.com:TartanLlama/expected.git
-[submodule "vendor/uWebSockets"]
-	path = vendor/uWebSockets
-	url = git@github.com:uNetworking/uWebSockets.git
-[submodule "vendor/libuv"]
-	path = vendor/libuv
-	url = git@github.com:libuv/libuv.git
