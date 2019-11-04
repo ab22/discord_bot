@@ -27,4 +27,5 @@ set(USOCKETS_LIB_PATH "${CMAKE_SOURCE_DIR}/vendor/uWebSockets/uSockets/x64/Relea
 
 add_subdirectory("ui")
 add_subdirectory("libwinapi")
+add_subdirectory("libdiscord")
 add_subdirectory("vendor/fmt" EXCLUDE_FROM_ALL)

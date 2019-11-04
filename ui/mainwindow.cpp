@@ -3,6 +3,8 @@
 
 #include <QMessageBox>
 
+#include <libdiscord/lib.hpp>
+
 using libwinapi::core::errors::Win32Error;
 
 MainWindow::MainWindow(QWidget* parent)
@@ -22,7 +24,7 @@ void MainWindow::setupMenuBar()
 {
 	fileMenu       = menuBar()->addMenu(tr("&File"));
 	settingsAction = new QAction(tr("Settings"), this);
-    exitAction     = new QAction(tr("E&xit"), this);
+	exitAction     = new QAction(tr("E&xit"), this);
 
 	connect(settingsAction, &QAction::triggered, this, &MainWindow::onSettingsClick);
 	connect(exitAction, &QAction::triggered, this, &MainWindow::onExitClick);
@@ -34,17 +36,17 @@ void MainWindow::setupMenuBar()
 
 void MainWindow::on_pushButton_clicked()
 {
-    auto result = winService.get_open_windows();
+	auto result = winService.get_open_windows();
 
-	if (!result) {        
-        QMessageBox msg;
+	if (!result) {
+		QMessageBox msg;
 		msg.setText(result.error().message());
 		msg.setInformativeText("Error!");
 		msg.setStandardButtons(QMessageBox::Ok);
 		msg.setDefaultButton(QMessageBox::Ok);
 		msg.exec();
 		return;
-    }
+	}
 
 	auto titles = result.value();
 	ui->listWindows->clear();
@@ -53,6 +55,8 @@ void MainWindow::on_pushButton_clicked()
 		const auto value = QString::fromWCharArray(title.text.data(), title.length);
 		ui->listWindows->addItem(value);
 	}
+
+	libdiscord::api::sample_http_request();
 }
 
 void MainWindow::onSettingsClick()

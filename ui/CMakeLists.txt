@@ -43,6 +43,7 @@ target_include_directories(discord_bot
     PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}"
         "${CMAKE_SOURCE_DIR}/libwinapi/include"
+        "${CMAKE_SOURCE_DIR}/libdiscord/include"
         "${EXPECTED_INCLUDE_PATH}"
 )
 
@@ -50,6 +51,7 @@ target_link_libraries(discord_bot
     PRIVATE
     general
         libwinapi
+        libdiscord
         "fmt-header-only"
         Qt5::Widgets
 )
