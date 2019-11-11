@@ -11,6 +11,7 @@ AlwaysBreakTemplateDeclarations: Yes
 AllowShortFunctionsOnASingleLine: None
 AlignConsecutiveAssignments: true
 AlignConsecutiveDeclarations: true
+AlignConsecutiveMacros: true
 BreakConstructorInitializers: BeforeComma
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
@@ -22,3 +23,4 @@ BinPackArguments: false
 SpaceBeforeInheritanceColon: false
 NamespaceIndentation: All
 FixNamespaceComments: false
+IndentPPDirectives: BeforeHash
