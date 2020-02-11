@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(discord-api LANGUAGES CXX)
 
+# Find Boost
 set(Boost_USE_STATIC_LIBS    ON)
 set(Boost_USE_DEBUG_LIBS     ON)
 set(Boost_USE_RELEASE_LIBS   ON)
@@ -16,6 +17,15 @@ find_package(Boost 1.71
 
 message(STATUS "Boost Include Path: ${Boost_INCLUDE_DIRS}")
 message(STATUS "Boost Library Path: ${Boost_LIBRARY_DIRS}")
+
+# Find OpenSSL
+set(OPENSSL_ROOT_DIR        "C:/Users/amendoza/cpp/openssl")
+set(OPENSSL_USE_STATIC_LIBS TRUE)
+find_package(OpenSSL REQUIRED)
+
+message(STATUS "OpenSSL Path: ${OPENSSL_INCLUDE_DIR}")
+message(STATUS "OpenSSL Library: ${OPENSSL_SSL_LIBRARY} ${OPENSSL_VERSION}")
+message(STATUS "OpenSSL Use Static Libs: ${OPENSSL_USE_STATIC_LIBS}")
 
 # To build shared libraries in Windows, we set CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS to TRUE.
 # See https://cmake.org/cmake/help/v3.4/variable/CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS.html
@@ -50,10 +60,12 @@ target_include_directories(libdiscord
 )
 
 target_link_libraries(libdiscord
-    PUBLIC
+    PRIVATE
     general
         Boost::system
         Boost::date_time
+        OpenSSL::SSL
+        "fmt-header-only"
 )
 
 if (MSVC)

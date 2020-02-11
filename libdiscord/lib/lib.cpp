@@ -1,9 +1,13 @@
 #include <libdiscord/lib.hpp>
+#include <libdiscord/root_certificates.hpp>
 
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ssl/error.hpp>
+#include <boost/asio/ssl/stream.hpp>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
+#include <boost/beast/ssl.hpp>
 #include <boost/beast/version.hpp>
 
 #include <iostream>
@@ -11,33 +15,58 @@
 namespace beast = boost::beast;
 namespace http  = beast::http;
 namespace net   = boost::asio;
+namespace ssl   = net::ssl;
 
 using tcp = net::ip::tcp;
 
 void libdiscord::api::sample_http_request()
 {
-	const auto host    = "localhost";
-	const auto port    = "4200";
-	const auto target  = "/";
-	int        version = 11;
+	const auto host        = "discordapp.com";
+	const auto port        = "443";
+	const auto target      = "/api/users/@me";
+	const auto auth_header = "Bearer lGrSagDOnnICtfCurPkd6fMIp75RWTYe";
+	int        version     = 11;
 
 	try {
+		// The io_context is required for all I/O
 		net::io_context ioc;
 
+		// The SSL context is required, and holds certificates
+		ssl::context ctx(ssl::context::tlsv12_client);
+
+		// This holds the root certificate used for verification
+		load_root_certificates(ctx);
+
+		// Verify the remote server's certificate
+		ctx.set_verify_mode(ssl::verify_none);
+
 		// These objects perform our I/O
-		tcp::resolver     resolver(ioc);
-		beast::tcp_stream stream(ioc);
+		tcp::resolver                        resolver(ioc);
+		beast::ssl_stream<beast::tcp_stream> stream(ioc, ctx);
+
+		// Set SNI Hostname (many hosts need this to handshake successfully)
+		if (!SSL_set_tlsext_host_name(stream.native_handle(), host)) {
+			beast::error_code ec{static_cast<int>(::ERR_get_error()),
+			                     net::error::get_ssl_category()};
+			throw beast::system_error{ec};
+		}
 
 		// Look up the domain name
 		auto const results = resolver.resolve(host, port);
 
 		// Make the connection on the IP address we get from a lookup
-		stream.connect(results);
+		beast::get_lowest_layer(stream).connect(results);
+
+		// Perform the SSL handshake
+		stream.handshake(ssl::stream_base::client);
 
 		// Set up an HTTP GET request message
 		http::request<http::string_body> req{http::verb::get, target, version};
 		req.set(http::field::host, host);
+		req.set("Authorization", auth_header);
 		req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+
+		std::cout << "Request: \n" << req << "\n";
 
 		// Send the HTTP request to the remote host
 		http::write(stream, req);
@@ -52,14 +81,18 @@ void libdiscord::api::sample_http_request()
 		http::read(stream, buffer, res);
 
 		// Write the message to standard out
-		std::cout << res << std::endl;
+		std::cout << "Response: \n" << res << std::endl;
 
-		// Gracefully close the socket
+		// Gracefully close the stream
 		beast::error_code ec;
-		stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+		stream.shutdown(ec);
 
-		if (ec && ec != beast::errc::not_connected)
-			throw beast::system_error(ec);
+		if (ec == net::error::eof) {
+			// Rationale:
+			// http://stackoverflow.com/questions/25587403/boost-asio-ssl-async-shutdown-always-finishes-with-an-error
+			ec = {};
+		} else if (ec)
+			throw beast::system_error{ec};
 	} catch (std::exception const& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}

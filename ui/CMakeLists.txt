@@ -29,7 +29,7 @@ find_package(Qt5
     REQUIRED
 )
 
-add_executable(discord_bot
+add_executable(ui
     main.cpp
     mainwindow.cpp
     mainwindow.h
@@ -39,7 +39,7 @@ add_executable(discord_bot
     themes/dark-orange.qrc
 )
 
-target_include_directories(discord_bot
+target_include_directories(ui
     PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}"
         "${CMAKE_SOURCE_DIR}/libwinapi/include"
@@ -47,7 +47,7 @@ target_include_directories(discord_bot
         "${EXPECTED_INCLUDE_PATH}"
 )
 
-target_link_libraries(discord_bot
+target_link_libraries(ui
     PRIVATE
     general
         libwinapi
@@ -59,7 +59,7 @@ target_link_libraries(discord_bot
 if (WIN32)
     add_custom_command(
         TARGET
-            discord_bot
+            ui
         POST_BUILD
         COMMAND
             ${CMAKE_COMMAND} -E copy_if_different
@@ -67,6 +67,6 @@ if (WIN32)
                 $<TARGET_FILE:Qt5::Core>
                 $<TARGET_FILE:Qt5::Gui>
                 ...
-            $<TARGET_FILE_DIR:discord_bot>
+            $<TARGET_FILE_DIR:ui>
     )
 endif()
